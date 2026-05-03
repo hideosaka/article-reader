@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0e0f11;
-    --surface:   #16181c;
-    --border:    #2a2d35;
-    --accent:    #e8c96d;
-    --accent2:   #7eb8c9;
-    --text:      #ddd8cc;
-    --text-sub:  #7a7870;
+    --bg:        #f5efe6;
+    --surface:   #ede3d6;
+    --border:    #cbbfa8;
+    --accent:    #8b5e3c;
+    --accent2:   #5a7fa8;
+    --text:      #000000;
+    --text-sub:  #4a3f35;
     --radius:    12px;
   }
 
@@ -32,6 +32,7 @@
   /* ---- header ---- */
   header {
     padding: 28px 24px 20px;
+    background: #1a2a4a;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: baseline;
@@ -42,11 +43,11 @@
     font-weight: 300;
     font-size: 1.35rem;
     letter-spacing: .12em;
-    color: var(--accent);
+    color: #f5d020;
   }
   header span {
     font-size: .7rem;
-    color: var(--text-sub);
+    color: #a8b8d0;
     letter-spacing: .08em;
   }
 
@@ -75,7 +76,7 @@
   }
   #urlInput {
     flex: 1;
-    background: var(--bg);
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text);
@@ -90,7 +91,7 @@
 
   #fetchBtn {
     background: var(--accent);
-    color: #111;
+    color: #fff;
     border: none;
     border-radius: 8px;
     font-family: inherit;
@@ -210,7 +211,7 @@
     flex-wrap: wrap;
   }
   .ctrl-btn {
-    background: var(--bg);
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text);
@@ -227,7 +228,7 @@
   #playPauseBtn {
     background: var(--accent2);
     border-color: var(--accent2);
-    color: #0e0f11;
+    color: #fff;
     font-weight: 700;
     padding: 9px 22px;
   }
@@ -249,7 +250,7 @@
   }
   .setting-item select,
   .setting-item input[type=range] {
-    background: var(--bg);
+    background: #fff;
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
@@ -267,7 +268,7 @@
 
   /* ハイライト */
   .highlight {
-    background: rgba(232,201,109,.18);
+    background: rgba(139,94,60,.18);
     border-radius: 3px;
     transition: background .2s;
   }
