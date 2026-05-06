@@ -379,6 +379,8 @@
 const PROXY_LIST = [
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`,
 ];
 
 let sentences    = [];
@@ -445,10 +447,14 @@ async function fetchArticle() {
   stopReading();
 
   let html = null;
-  for (const proxyFn of PROXY_LIST) {
+  for (let i = 0; i < PROXY_LIST.length; i++) {
     try {
-      const res = await fetch(proxyFn(url), { signal: AbortSignal.timeout(12000) });
-      if (res.ok) { html = await res.text(); break; }
+      setStatus(`記事を取得中… (${i + 1}/${PROXY_LIST.length})`);
+      const res = await fetch(PROXY_LIST[i](url), { signal: AbortSignal.timeout(12000) });
+      if (res.ok) {
+        const text = await res.text();
+        if (text.length > 200) { html = text; break; }
+      }
     } catch(e) { /* 次のプロキシへ */ }
   }
 
