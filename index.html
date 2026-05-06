@@ -50,6 +50,13 @@
     color: #a8b8d0;
     letter-spacing: .08em;
   }
+  #releaseInfo {
+    margin-left: auto;
+    font-size: .65rem;
+    color: #7a9abf;
+    letter-spacing: .05em;
+    white-space: nowrap;
+  }
 
   /* ---- main ---- */
   main { padding: 24px 20px; max-width: 680px; margin: 0 auto; }
@@ -68,6 +75,24 @@
     letter-spacing: .1em;
     color: var(--text-sub);
     margin-bottom: 10px;
+  }
+  .maxchars-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    font-size: .76rem;
+    color: var(--text-sub);
+  }
+  .maxchars-row select {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: .76rem;
+    padding: 4px 8px;
+    outline: none;
   }
   .url-row {
     display: flex;
@@ -303,6 +328,7 @@
 <header>
   <h1>記事リーダー</h1>
   <span>ARTICLE READER</span>
+  <span id="releaseInfo">v1.2 &nbsp;|&nbsp; 日英自動判定対応 &nbsp;|&nbsp; 2025-05</span>
 </header>
 
 <main>
@@ -312,6 +338,15 @@
     <div class="url-row">
       <input id="urlInput" type="url" placeholder="https://..." autocomplete="off" inputmode="url">
       <button id="fetchBtn" onclick="fetchArticle()">取得</button>
+    </div>
+    <div class="maxchars-row">
+      <span>読み上げ文字数上限</span>
+      <select id="maxChars">
+        <option value="500">500字</option>
+        <option value="1000" selected>1000字</option>
+        <option value="2000">2000字</option>
+        <option value="0">全文</option>
+      </select>
     </div>
   </div>
 
@@ -357,15 +392,6 @@
         <div class="setting-item">
           声
           <select id="voiceSelect" onchange="onVoiceChange()"></select>
-        </div>
-        <div class="setting-item">
-          文字数上限
-          <select id="maxChars">
-            <option value="500">500字</option>
-            <option value="1000" selected>1000字</option>
-            <option value="2000">2000字</option>
-            <option value="0">全文</option>
-          </select>
         </div>
       </div>
     </div>
