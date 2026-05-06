@@ -8,25 +8,121 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5efe6; --surface: #ede3d6; --border: #cbbfa8; --accent: #8b5e3c;
-    --accent2: #5a7fa8; --text: #000000; --text-sub: #4a3f35; --radius: 12px;
+    --bg:        #f5efe6;
+    --surface:   #ede3d6;
+    --border:    #cbbfa8;
+    --accent:    #8b5e3c;
+    --accent2:   #5a7fa8;
+    --text:      #000000;
+    --text-sub:  #4a3f35;
+    --radius:    12px;
   }
-  *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--bg); color:var(--text); font-family:'Zen Kaku Gothic New',sans-serif; min-height:100vh; padding-bottom:80px; }
-  header { padding:28px 24px 20px; background:#1a2a4a; display:flex; align-items:baseline; gap:12px; color:#f5d020; }
-  header h1 { font-family:'Noto Serif JP',serif; font-weight:300; font-size:1.35rem; letter-spacing:.12em; }
-  main { padding:24px 20px; max-width:680px; margin:0 auto; }
-  .url-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; margin-bottom:20px; }
-  .url-row { display:flex; gap:10px; }
-  #urlInput { flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; }
-  #fetchBtn { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:10px 18px; cursor:pointer; font-weight:700; }
-  #status { font-size:.78rem; min-height:20px; margin-bottom:16px; padding-left:4px; }
-  #status.error { color:#e07070; }
-  #status.ok { color:#7ecb9a; }
-  #articleCard { display:none; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-  #articleText { padding:18px 20px; line-height:1.9; max-height:320px; overflow-y:auto; }
-  .highlight { background:rgba(139,94,60,.18); }
-  /* 省略（他のスタイルは前回と同じでOK） */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px;
+    overflow-x: hidden;
+  }
+  header {
+    padding: 28px 24px 20px;
+    background: #1a2a4a;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: 1.35rem;
+    letter-spacing: .12em;
+    color: #f5d020;
+  }
+  #releaseInfo {
+    margin-left: auto;
+    font-size: .65rem;
+    color: #7a9abf;
+  }
+  main { padding: 24px 20px; max-width: 680px; margin: 0 auto; }
+  .url-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  .url-row { display: flex; gap: 10px; }
+  #urlInput {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .88rem;
+  }
+  #fetchBtn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  #status { font-size: .78rem; min-height: 20px; margin-bottom: 16px; padding-left: 4px; }
+  #status.error { color: #e07070; }
+  #status.ok    { color: #7ecb9a; }
+  #articleCard {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  #articleTitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.05rem;
+    color: var(--accent);
+    padding: 18px 20px 6px;
+  }
+  #articleMeta { font-size: .7rem; color: var(--text-sub); padding: 0 20px 14px; border-bottom: 1px solid var(--border); }
+  #articleText {
+    padding: 18px 20px;
+    font-size: .88rem;
+    line-height: 1.9;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .highlight { background: rgba(139,94,60,.18); padding: 2px 4px; border-radius: 3px; }
+  .player { padding: 16px 20px 20px; border-top: 1px solid var(--border); }
+  .progress-wrap { display: flex; align-items: center; gap: 10px; }
+  #progressBar { flex: 1; }
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .ctrl-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  #playPauseBtn {
+    background: var(--accent2);
+    color: #fff;
+    font-weight: 700;
+  }
+  .settings-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .wave { display: none; align-items: center; gap: 3px; margin-left: auto; }
+  .wave.active { display: flex; }
+  .wave span {
+    width: 3px; height: 12px; background: var(--accent2);
+    animation: wave 1s ease-in-out infinite;
+  }
+  .wave span:nth-child(2) { animation-delay: .15s; }
+  .wave span:nth-child(3) { animation-delay: .30s; }
+  .wave span:nth-child(4) { animation-delay: .45s; }
+  @keyframes wave { 0%,100% { transform: scaleY(.4); } 50% { transform: scaleY(1.2); } }
 </style>
 </head>
 <body>
@@ -34,7 +130,7 @@
 <header>
   <h1>記事リーダー</h1>
   <span>ARTICLE READER</span>
-  <span id="releaseInfo">v2.2 Amebaプロフィール完全対応 &nbsp;|&nbsp; 2026-05</span>
+  <span id="releaseInfo">v2.2 Ameba完全対応版</span>
 </header>
 
 <main>
@@ -44,7 +140,7 @@
       <input id="urlInput" type="url" placeholder="https://..." value="https://www.ameba.jp/profile/general/happy-ronan/">
       <button id="fetchBtn" onclick="fetchArticle()">取得</button>
     </div>
-    <div class="maxchars-row">
+    <div class="maxchars-row" style="margin-top:12px; font-size:0.76rem;">
       <span>読み上げ文字数上限</span>
       <select id="maxChars">
         <option value="1000">1000字</option>
@@ -64,14 +160,36 @@
       <div id="articleMeta"></div>
     </div>
     <div id="articleText"></div>
-    <div class="player"> <!-- 前回と同じプレーヤー部分をここに貼り付けてください（省略） --></div>
+
+    <div class="player">
+      <div class="progress-wrap">
+        <input id="progressBar" type="range" min="0" max="100" value="0" oninput="onProgressInput(this.value)">
+        <span id="timeDisplay">0 / 0 文</span>
+      </div>
+      <div class="controls">
+        <button class="ctrl-btn" onclick="skipSentences(-3)">◀◀ 3文</button>
+        <button id="playPauseBtn" class="ctrl-btn" onclick="togglePlay()">▶ 再生</button>
+        <button class="ctrl-btn" onclick="skipSentences(3)">3文 ▶▶</button>
+        <button class="ctrl-btn" onclick="stopReading()">■ 停止</button>
+        <div class="wave" id="wave"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="settings-row">
+        <div class="setting-item">
+          速度 <input type="range" min="0.5" max="2.0" step="0.1" value="1.0" oninput="onRateChange(this.value)">
+          <span id="rateVal">1.0</span>
+        </div>
+        <div class="setting-item">
+          声 <select id="voiceSelect" onchange="onVoiceChange()"></select>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/readability/0.6.0/Readability.js"></script>
 
 <script>
-// PROXY_LIST（前回と同じ）
+// ==================== 設定 ====================
 const PROXY_LIST = [
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -80,82 +198,126 @@ const PROXY_LIST = [
   url => `https://proxy.cors.sh/${url}`,
 ];
 
-let sentences = [], currentIdx = 0, isPlaying = false, rate = 1.0, selectedVoice = null, currentLang = 'ja';
+let sentences = [];
+let currentIdx = 0;
+let isPlaying = false;
+let utterance = null;
+let rate = 1.0;
+let selectedVoice = null;
+let currentLang = 'ja';
 
-// （detectLang, loadVoices, onVoiceChange, splitToSentences, 再生関連関数は前回版と同じなので省略）
-// 必要なら前回のコードからコピーしてください
+// ==================== 言語判定 ====================
+function detectLang(text) {
+  const jpChars = (text.match(/[\u3040-\u30ff\u4e00-\u9fff]/g) || []).length;
+  return jpChars > text.length * 0.05 ? 'ja' : 'en';
+}
 
+// ==================== 音声 ====================
+function loadVoices(lang) {
+  const sel = document.getElementById('voiceSelect');
+  const prefix = lang === 'ja' ? 'ja' : 'en';
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith(prefix));
+  sel.innerHTML = '';
+  if (voices.length === 0) {
+    sel.innerHTML = '<option value="">（自動）</option>';
+    return;
+  }
+  voices.forEach((v, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name.replace('Google ', '').replace(' Japanese', '').replace(' English', '');
+    sel.appendChild(opt);
+  });
+  selectedVoice = voices[0];
+}
+speechSynthesis.onvoiceschanged = () => loadVoices(currentLang);
+loadVoices('ja');
+
+function onVoiceChange() {
+  const prefix = currentLang === 'ja' ? 'ja' : 'en';
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith(prefix));
+  selectedVoice = voices[document.getElementById('voiceSelect').value] || null;
+}
+
+// ==================== 記事取得 ====================
 async function fetchArticle() {
   const url = document.getElementById('urlInput').value.trim();
-  if (!url.startsWith('http')) return setStatus('有効なURLを入力してください', 'error');
-
-  const btn = document.getElementById('fetchBtn');
-  btn.disabled = true; btn.textContent = '取得中...';
-  setStatus('取得中…');
-
-  let html = null;
-  for (let p of PROXY_LIST) {
-    try {
-      const res = await fetch(p(url), {signal: AbortSignal.timeout(15000)});
-      if (res.ok) {
-        html = await res.text();
-        if (html.length > 1000) break;
-      }
-    } catch(e){}
+  if (!url.startsWith('http')) {
+    setStatus('有効なURLを入力してください', 'error'); return;
   }
 
-  btn.disabled = false; btn.textContent = '取得';
+  const btn = document.getElementById('fetchBtn');
+  btn.disabled = true;
+  btn.textContent = '取得中...';
+  stopReading();
+  setStatus('記事を取得中…');
 
-  if (!html) return setStatus('取得失敗しました', 'error');
+  let html = null;
+  for (let proxy of PROXY_LIST) {
+    try {
+      const res = await fetch(proxy(url), { signal: AbortSignal.timeout(15000) });
+      if (res.ok) {
+        html = await res.text();
+        if (html.length > 800) break;
+      }
+    } catch(e) {}
+  }
 
-  const {title, text} = extractArticleAmeba(html, url);
-  
+  btn.disabled = false;
+  btn.textContent = '取得';
+
+  if (!html) {
+    setStatus('取得に失敗しました', 'error');
+    return;
+  }
+
+  const { title, text } = extractArticleAmeba(html, url);
+
   if (text.length < 100) {
-    return setStatus('本文が抽出できませんでした。別の記事ページを試してください。', 'error');
+    setStatus('本文がほとんど抽出できませんでした。記事ページのURLをお試しください。', 'error');
+    return;
   }
 
   showArticle(title, text, url);
 }
 
-// ==================== Amebaプロフィール特化抽出 ====================
+// ==================== Ameba特化抽出 ====================
 function extractArticleAmeba(html, url) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
 
-  let title = doc.title || 'ろんろんさんのプロフィール';
+  let title = doc.title || 'Ameba 記事';
 
   let text = '';
 
-  // 1. Readabilityを試す
+  // Readability
   try {
     const reader = new Readability(doc);
     const article = reader.parse();
-    if (article?.textContent?.length > 300) text = article.textContent;
+    if (article && article.textContent.length > 200) {
+      text = article.textContent;
+      title = article.title || title;
+    }
   } catch(e) {}
 
-  // 2. Amebaプロフィール特化抽出（これが以前のバージョンで効いていた部分）
+  // Amebaプロフィール特化
   if (text.length < 300) {
-    // 自己紹介部分を強く狙う
-    const profileSelectors = ['.profile', 'section', 'article', 'div'];
-    for (let sel of profileSelectors) {
-      const els = doc.querySelectorAll(sel);
-      for (let el of els) {
-        const t = el.textContent.trim();
-        if (t.length > 200 && /自己紹介|プロフィール|インストラクター|石垣浩子/.test(t)) {
-          text = t;
-          break;
-        }
+    const candidates = doc.querySelectorAll('div, section, article');
+    for (let el of candidates) {
+      const t = el.textContent.trim();
+      if (t.length > 250 && /自己紹介|プロフィール|インストラクター|石垣浩子|フィットネス/.test(t)) {
+        text = t;
+        break;
       }
-      if (text.length > 200) break;
     }
+  }
 
-    // 3. 最終フォールバック（全テキストを集める）
-    if (text.length < 200) {
-      text = [...doc.querySelectorAll('p, div, section')]
-        .map(el => el.textContent.trim())
-        .filter(t => t.length > 30)
-        .join('\n\n');
-    }
+  // 最終フォールバック
+  if (text.length < 200) {
+    text = [...doc.querySelectorAll('p, div')]
+      .map(el => el.textContent.trim())
+      .filter(t => t.length > 40)
+      .join('\n\n');
   }
 
   text = text
@@ -167,9 +329,166 @@ function extractArticleAmeba(html, url) {
   return { title, text };
 }
 
-// showArticle, splitToSentences などは前回版と同じものを使用
-// （ここに前回の showArticle, splitToSentences, highlightSentence などの関数を貼り付けてください）
+// ==================== 表示 & 分割 ====================
+function showArticle(title, text, url) {
+  currentLang = detectLang(text);
+  loadVoices(currentLang);
 
+  const badge = document.getElementById('langBadge');
+  badge.innerHTML = `<span style="background:${currentLang==='ja'?'#1a2a4a':'#2a4a2a'}; color:${currentLang==='ja'?'#f5d020':'#7ecb9a'}; padding:3px 10px; border-radius:20px; font-size:0.7rem;">${currentLang==='ja'?'🇯🇵 日本語':'🇺🇸 English'} — 自動検出</span>`;
+  badge.style.display = 'block';
+
+  const maxChars = parseInt(document.getElementById('maxChars').value) || 0;
+  const displayText = (maxChars > 0 && text.length > maxChars) ? text.slice(0, maxChars) : text;
+
+  document.getElementById('articleTitle').textContent = title;
+  document.getElementById('articleMeta').textContent = `${new URL(url).hostname} ／ ${text.length.toLocaleString()}文字`;
+  document.getElementById('articleText').textContent = displayText;
+
+  sentences = splitToSentences(displayText, currentLang);
+  currentIdx = 0;
+  updateProgress();
+
+  document.getElementById('articleCard').style.display = 'block';
+  setStatus(`取得完了 — ${sentences.length}文`, 'ok');
+}
+
+function splitToSentences(text, lang) {
+  if (lang === 'ja') {
+    const raw = text.split(/(?<=[\u3002\uff01\uff1f\u2026\n])/);
+    const result = [];
+    let buf = '';
+    for (let s of raw) {
+      s = s.trim();
+      if (!s) continue;
+      buf += s;
+      if (/[。！？\u2026]$/.test(s) && buf.length >= 12) {
+        result.push(buf);
+        buf = '';
+      }
+    }
+    if (buf.trim()) result.push(buf.trim());
+    return result.filter(s => s.length > 8);
+  } else {
+    return text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 30);
+  }
+}
+
+// ==================== 再生制御 ====================
+function togglePlay() {
+  if (isPlaying) pauseReading();
+  else {
+    if (currentIdx >= sentences.length) currentIdx = 0;
+    isPlaying = true;
+    updatePlayBtn();
+    readNext();
+  }
+}
+
+function pauseReading() {
+  isPlaying = false;
+  speechSynthesis.cancel();
+  updatePlayBtn();
+  setWave(false);
+}
+
+function stopReading() {
+  isPlaying = false;
+  currentIdx = 0;
+  speechSynthesis.cancel();
+  updatePlayBtn();
+  updateProgress();
+  setWave(false);
+}
+
+function readNext() {
+  if (!isPlaying || currentIdx >= sentences.length) {
+    if (currentIdx >= sentences.length) setStatus('読み上げ完了 ✓', 'ok');
+    isPlaying = false;
+    updatePlayBtn();
+    setWave(false);
+    return;
+  }
+
+  const text = sentences[currentIdx];
+  highlightSentence(currentIdx);
+  updateProgress();
+
+  utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = currentLang === 'ja' ? 'ja-JP' : 'en-US';
+  utterance.rate = rate;
+  if (selectedVoice) utterance.voice = selectedVoice;
+
+  utterance.onend = () => { currentIdx++; readNext(); };
+  utterance.onerror = () => { currentIdx++; readNext(); };
+
+  setWave(true);
+  speechSynthesis.speak(utterance);
+}
+
+function skipSentences(delta) {
+  const wasPlaying = isPlaying;
+  speechSynthesis.cancel();
+  currentIdx = Math.max(0, Math.min(sentences.length - 1, currentIdx + delta));
+  updateProgress();
+  if (wasPlaying) setTimeout(readNext, 80);
+}
+
+function onProgressInput(val) {
+  const wasPlaying = isPlaying;
+  speechSynthesis.cancel();
+  currentIdx = Math.round((val / 100) * (sentences.length - 1));
+  updateProgress();
+  if (wasPlaying) setTimeout(readNext, 80);
+}
+
+// ==================== UI ====================
+function updatePlayBtn() {
+  const btn = document.getElementById('playPauseBtn');
+  btn.textContent = isPlaying ? (currentLang === 'ja' ? '⏸ 一時停止' : '⏸ Pause') : (currentLang === 'ja' ? '▶ 再生' : '▶ Play');
+}
+
+function updateProgress() {
+  const total = sentences.length;
+  const pct = total > 0 ? (currentIdx / Math.max(total - 1, 1)) * 100 : 0;
+  document.getElementById('progressBar').value = pct;
+  document.getElementById('timeDisplay').textContent = `${currentIdx + 1} / ${total}`;
+}
+
+function highlightSentence(idx) {
+  const box = document.getElementById('articleText');
+  const full = sentences.join(currentLang === 'en' ? ' ' : '');
+  let pos = 0;
+  for (let i = 0; i < idx; i++) pos += sentences[i].length + (currentLang === 'en' ? 1 : 0);
+
+  const before = full.slice(0, pos);
+  const target = sentences[idx];
+  const after = full.slice(pos + target.length);
+
+  box.innerHTML = escHtml(before) + `<mark class="highlight">${escHtml(target)}</mark>` + escHtml(after);
+  box.querySelector('.highlight')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function setWave(on) {
+  document.getElementById('wave').classList.toggle('active', on);
+}
+
+function onRateChange(val) {
+  rate = parseFloat(val);
+  document.getElementById('rateVal').textContent = rate.toFixed(1);
+}
+
+function setStatus(msg, type = '') {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = type;
+}
+
+window.addEventListener('beforeunload', () => speechSynthesis.cancel());
 </script>
 </body>
 </html>
